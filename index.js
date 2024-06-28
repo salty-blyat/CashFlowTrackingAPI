@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 8080;
 
 // Middleware
 app.use(bodyParser.json());
@@ -20,9 +19,11 @@ app.use(middlewares);
 // Mount JSON Server router
 app.use("/", router); // Assuming you want JSON Server to handle all routes
 
-// Start the server
+// Vercel deployment requires listening on process.env.PORT
+module.exports = app; // Export the Express app for deployment
+
+// Optional: Start the server locally
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`JSON Server is running on port ${port}`);
 });
-
-module.exports = app; // Export the Express app for testing or other usage
